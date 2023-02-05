@@ -3,6 +3,9 @@ from configparser import ConfigParser
 import setuptools, shlex
 assert parse_version(setuptools.__version__)>=parse_version('36.2')
 
+extras = {}
+extras["quality"] = ["black ~= 22.0", "isort >= 5.5.4", "flake8 >= 3.8.3"]
+
 # note: all settings are in settings.ini; edit there, not here
 config = ConfigParser(delimiters=['='])
 config.read('settings.ini')
@@ -42,7 +45,7 @@ setuptools.setup(
     packages = setuptools.find_packages(),
     include_package_data = True,
     install_requires = requirements,
-    extras_require={ 'dev': dev_requirements },
+    extras_require=extras,
     dependency_links = cfg.get('dep_links','').split(),
     python_requires  = '>=' + cfg['min_python'],
     long_description = open('README.md').read(),
