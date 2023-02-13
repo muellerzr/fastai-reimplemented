@@ -5,7 +5,7 @@ __all__ = ['nb_export', 'fast_export']
 
 # %% ../../nbs/foundation/export.ipynb 1
 import os
-from fastcore.basics import ifnone
+from fastcore.basics import ifnone, patch
 from fastcore.foundation import L
 from fastcore.script import call_parse
 
@@ -18,7 +18,9 @@ from nbdev.processors import FilterDefaults
 
 # %% ../../nbs/foundation/export.ipynb 2
 def nb_export(nbname, lib_path=None, procs=black_format, debug=False, mod_maker=ModuleMaker, name=None):
-    """Create module(s) from notebook"""
+    """
+    Create module(s) from notebook
+    """
     if lib_path is None: lib_path = get_config().lib_path
     exp = ExportModuleProc()
     extra_procs = FilterDefaults().xtra_procs()
@@ -37,18 +39,18 @@ def nb_export(nbname, lib_path=None, procs=black_format, debug=False, mod_maker=
 
 # %% ../../nbs/foundation/export.ipynb 3
 @call_parse
-def fast_export(
-    path:str=None, 
-):
+def fast_export(path: str=None):
     """
+    
     Export notebooks in `path` to Python modules
     
+    
     Args:
-      path (`str`):
-        Path or filename
+        path (str):
+            Path or filename
     """
     if os.environ.get('IN_TEST',0): return
-    files = nbglob(path=path, as_path=True).sorted('name')
+    files = nbglob(file_glob=path, as_path=True).sorted('name')
     for f in files: nb_export(f)
     add_init(get_config().lib_path)
-    _build_modidx()
+    #_build_modidx()
