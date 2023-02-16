@@ -190,7 +190,9 @@ def reformat_function(source: str):
         if "return" in function_docments:
             function_docstring += '\n'
         if not function_docstring.endswith(offset):
-            function_docstring += f'\n{offset}"""'
+            if not function_docstring.endswith("\n"):
+                function_docstring += "\n"
+            function_docstring += f'{offset}"""'
         else:
             function_docstring += f'"""'
         function_docstring = parse(function_docstring)
@@ -295,8 +297,7 @@ def attach_example(source_code: str, example_code: str) -> str:
             The complete python code of a function or class
         example_code (str):
             The complete annotated example to go along with the source code
-    
-    Example:
+        Example:
 
     ```python
     >>> attach_example(

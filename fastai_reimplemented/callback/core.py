@@ -19,7 +19,6 @@ class StrEnum(str, Enum):
     def contains(cls, value) -> bool:
         """
         Checks if `value` exists in the current `Enum`
-    
         """
         return value in cls._value2member_map_
 
@@ -183,3 +182,9 @@ class Callback:
             # Reset self.run to `True` at the end of each `fit`
             self.run = True
         return output
+
+    def call_event(self, event: str):
+        """
+        Calls a callback `event` for all callbacks in `self.callbacks`
+        """
+        return getattr(self, event)()
